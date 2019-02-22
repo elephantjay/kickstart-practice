@@ -4,72 +4,60 @@
 
 #include <iostream>
 #include <cmath>
-#include <algorithm>
 #include <stdio.h>
 #include <string>
 using namespace std;
 
-int length(int n)
-{
-	int length;
-
-	for(; n != 0; n /= 10, length++);
-
-	return length;
-}
-
-int firstDigit(int n)
-{
-	while( n >= 10 )
-		n /= 10;
-
-	return n;
-}
-
-int integerOfEights(int length) {
+long long int integerOfEights(int length) {
 	char eights[length];
 	for(int i = 0; i < length; i++) {
 		eights[i] = '8';
 	}
-	return atoi(eights);
+	return atoll(eights);
 }
 
 int main () 
 {
 	int t;
 	cin >> t;
-	cout << t << " Test Cases: " << endl;
 	for( int i = 1 ; i <= t ; i++ )
 	{	
-		int num, len, sum = 0, result = 0;
+		long long int num, len, result = 0;
 		string n;
 		cin >> n;
-		cout << n;
-		num = stoi(n);
+		num = stoll(n);
 		len = n.length();
-		cout << "len: " << len;
+
+		int firstOddDigitPos = -1;
 		for (int j = 0; j < len; j++) {
-			int digit = n[j] - '0';
-			cout << endl;
-			cout << "digit: " << digit << endl;
-			if (digit % 2 == 1 and digit != 9) {
-				int upper = (digit + 1) * pow(10, len-(j+1));
-				cout << "upper: " << upper << " ";
-				int lower = (digit - 1) + integerOfEights(len-(j+1));
-				cout << "lower: " << lower << " " << endl;
-				int remainder = num - sum;
-				cout << "remainder: " << remainder << endl;
-				cout << "sum: " << sum << endl;
-				result = min(upper-remainder, remainder-lower);
+			if (n[j] % 2 == 1) {
+				firstOddDigitPos = j;
 				break;
 			}
-			else if (digit == 9) {
-				result = num - ((digit - 1) + integerOfEights(len - (j+1)));
-				break;
-			}
-			sum += digit * pow(10,len-(j+1));
 		}
-		cout << "result: " << result << endl;
+		if (firstOddDigitPos == -1) {
+			cout << "Case #" << i << ": " << 0 << endl;
+			continue;
+		}
+
+		long long int remain;
+		string r;
+		for (int j = firstOddDigitPos; j < len; j++) {
+			r += n[j];
+		}
+		remain = stoll(r);
+		int digit = r[0] - '0';
+		long long int lower = ((digit - 1) * pow(10, r.length()-1)) + integerOfEights(r.length()-1);
+
+		if (digit == 9) {
+			result = remain - lower;
+		}
+		else {
+			long long int upper = (digit+ 1) * pow(10, r.length()-1);
+			result = min(upper-remain, remain-lower);
+		}
+
+		cout << "Case #" << i << ": " << result << endl;
 	}
 	return 0;
 }
