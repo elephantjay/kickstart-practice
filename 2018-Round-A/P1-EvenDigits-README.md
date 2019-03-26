@@ -1,4 +1,5 @@
 #### Problem
+#### Problem
 Supervin has a unique calculator. This calculator only has a display, a plus button, and a minus button. Currently, the integer **N** is displayed on the calculator display.
 
 Pressing the plus button increases the current number displayed on the calculator display by `1`. Similarly, pressing the minus button decreases the current number displayed on the calculator display by `1`. The calculator does not display any leading zeros. For example, if `100` is displayed on the calculator display, pressing the minus button once will cause the calculator to display `99`.
